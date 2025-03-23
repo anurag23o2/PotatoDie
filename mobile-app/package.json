@@ -1,0 +1,16 @@
+{
+  "name": "mlDemo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-native": "0.77.1",
+    "react-native-config": "^1.5.5"
+  },
+  "devDependencies": {
+    "@react-native-community/cli": "latest"
+  }
+}
