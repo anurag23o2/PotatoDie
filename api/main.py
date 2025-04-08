@@ -50,8 +50,4 @@ async def predict(
     }
 
 if __name__ == "__main__":
-<<<<<<< Updated upstream
     uvicorn.run(app, host='localhost', port=8000)
-=======
-    uvicorn.run(app, host="localhost", port=8000) 
->>>>>>> Stashed changes
