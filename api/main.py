@@ -20,7 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MODEL_PATH = r"D:\PotatoDie\models\paf1.h5"
+MODEL_PATH = "models/paf1.h5"
 MODEL = tf.keras.models.load_model(MODEL_PATH)
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
@@ -50,4 +50,4 @@ async def predict(
     }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host='localhost', port=8000)
+    uvicorn.run("api.main:app", host="0.0.0.0", port=8000)
