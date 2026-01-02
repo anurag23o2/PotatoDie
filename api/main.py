@@ -9,18 +9,15 @@ import tensorflow as tf
 # 🔥 ADDED IMPORTS
 import os
 from datetime import datetime
-from database.db import SessionLocal, engine
+from database.db import SessionLocal, engine, Base
 from database.models import Prediction
-from database.db import Base
 
 app = FastAPI()
 
-# 🔥 CREATE DB TABLES (runs once automatically)
+# 🔥 CREATE DB TABLES
 Base.metadata.create_all(bind=engine)
 
-origins = [
-    "*",
-]
+origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -29,7 +26,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MODEL_PATH = "../models/paf1.h5"
+# 🔥 SAFE, DEPLOYMENT-PROOF MODEL PATH
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "models", "paf1.h5")
+
 MODEL = tf.keras.models.load_model(MODEL_PATH)
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
@@ -43,10 +43,7 @@ def read_file_as_image(data) -> np.ndarray:
     return image
 
 @app.post("/predict")
-async def predict(
-    file: UploadFile = File(...)
-):
-    # 🔥 READ IMAGE
+async def predict(file: UploadFile = File(...)):
     image_bytes = await file.read()
     image = read_file_as_image(image_bytes)
     img_batch = np.expand_dims(image, 0)
@@ -56,10 +53,12 @@ async def predict(
     predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
     confidence = float(np.max(predictions[0]))
 
-    # 🔥 SAVE IMAGE TO uploads/
-    os.makedirs("uploads", exist_ok=True)
+    # 🔥 SAVE IMAGE
+    uploads_dir = os.path.join(BASE_DIR, "uploads")
+    os.makedirs(uploads_dir, exist_ok=True)
+
     filename = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file.filename}"
-    image_path = os.path.join("uploads", filename)
+    image_path = os.path.join(uploads_dir, filename)
 
     with open(image_path, "wb") as f:
         f.write(image_bytes)
@@ -76,12 +75,11 @@ async def predict(
     db.close()
 
     return {
-        'class': predicted_class,
-        'confidence': confidence,
-        'image_path': image_path
+        "class": predicted_class,
+        "confidence": confidence,
+        "image_path": image_path
     }
 
-# 🔥 OPTIONAL BUT STRONG FOR VIVA
 @app.get("/history")
 def get_history():
     db = SessionLocal()
@@ -99,5 +97,7 @@ def get_history():
         for d in data
     ]
 
+# 🔥 RENDER-COMPATIBLE SERVER START
 if __name__ == "__main__":
-    uvicorn.run("api.main:app", host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("api.main:app", host="0.0.0.0", port=port)
