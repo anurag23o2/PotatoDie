@@ -9,6 +9,8 @@ import tensorflow as tf
 # 🔥 ADDED IMPORTS
 import os
 from datetime import datetime
+from sqlalchemy import func
+
 from database.db import SessionLocal, engine, Base
 from database.models import Prediction
 
@@ -17,6 +19,7 @@ app = FastAPI()
 # 🔥 CREATE DB TABLES
 Base.metadata.create_all(bind=engine)
 
+# CORS
 origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
@@ -34,13 +37,16 @@ MODEL = tf.keras.models.load_model(MODEL_PATH)
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
 
+
 @app.get("/ping")
 async def ping():
     return "Hello, I am alive"
 
+
 def read_file_as_image(data) -> np.ndarray:
     image = np.array(Image.open(BytesIO(data)))
     return image
+
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
@@ -80,6 +86,7 @@ async def predict(file: UploadFile = File(...)):
         "image_path": image_path
     }
 
+
 @app.get("/history")
 def get_history():
     db = SessionLocal()
@@ -96,6 +103,101 @@ def get_history():
         }
         for d in data
     ]
+
+
+# =======================
+# 🔥 ANALYTICS ENDPOINTS
+# =======================
+
+@app.get("/analytics/summary")
+def analytics_summary():
+    db = SessionLocal()
+
+    total = db.query(func.count(Prediction.id)).scalar()
+    avg_conf = db.query(func.avg(Prediction.confidence)).scalar()
+    min_conf = db.query(func.min(Prediction.confidence)).scalar()
+    max_conf = db.query(func.max(Prediction.confidence)).scalar()
+
+    db.close()
+
+    return {
+        "total_predictions": total,
+        "average_confidence": round(avg_conf, 4) if avg_conf else None,
+        "min_confidence": round(min_conf, 4) if min_conf else None,
+        "max_confidence": round(max_conf, 4) if max_conf else None
+    }
+
+
+@app.get("/analytics/class-distribution")
+def class_distribution():
+    db = SessionLocal()
+
+    results = (
+        db.query(
+            Prediction.predicted_class,
+            func.count(Prediction.id)
+        )
+        .group_by(Prediction.predicted_class)
+        .all()
+    )
+
+    total = sum(r[1] for r in results)
+    db.close()
+
+    return [
+        {
+            "class": r[0],
+            "count": r[1],
+            "percentage": round((r[1] / total) * 100, 2) if total else 0
+        }
+        for r in results
+    ]
+
+
+@app.get("/analytics/confidence-levels")
+def confidence_levels():
+    db = SessionLocal()
+
+    high = db.query(Prediction).filter(Prediction.confidence >= 0.8).count()
+    medium = db.query(Prediction).filter(
+        Prediction.confidence >= 0.6,
+        Prediction.confidence < 0.8
+    ).count()
+    low = db.query(Prediction).filter(Prediction.confidence < 0.6).count()
+
+    db.close()
+
+    return {
+        "high_confidence": high,
+        "medium_confidence": medium,
+        "low_confidence": low
+    }
+
+
+@app.get("/analytics/daily-usage")
+def daily_usage():
+    db = SessionLocal()
+
+    results = (
+        db.query(
+            func.date(Prediction.created_at),
+            func.count(Prediction.id)
+        )
+        .group_by(func.date(Prediction.created_at))
+        .order_by(func.date(Prediction.created_at))
+        .all()
+    )
+
+    db.close()
+
+    return [
+        {
+            "date": str(r[0]),
+            "count": r[1]
+        }
+        for r in results
+    ]
+
 
 # 🔥 RENDER-COMPATIBLE SERVER START
 if __name__ == "__main__":
