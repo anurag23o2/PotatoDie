@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Render Backend
-        run: curl https://potatodie-hbwl.onrender.com/ping
+        run: curl https://potatodie-hbwl1.onrender.com/ping
