@@ -22,7 +22,7 @@ app.add_middleware(
 # -----------------------------
 # Load model
 # -----------------------------
-MODEL_PATH = "models/potato_model.h5"
+MODEL_PATH = "models/potatoes_model.h5"
 model = tf.keras.models.load_model(MODEL_PATH)
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
