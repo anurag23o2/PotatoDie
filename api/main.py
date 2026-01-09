@@ -24,17 +24,17 @@ app.add_middleware(
 )
 
 # -----------------------------
-# Resolve MODEL PATH CORRECTLY
-# Repo structure:
-# PotatoDie/
-# ├── api/main.py   <-- this file
-# ├── models/potato_model.h5
+# MODEL PATH (MATCHES YOUR ACTUAL FILE)
+# D:\PotatoDie\api\models\potato_model.h5
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "..", "models", "potato_model.h5")
+MODEL_PATH = os.path.join(BASE_DIR, "models", "potato_model.h5")
+
+if not os.path.exists(MODEL_PATH):
+    raise FileNotFoundError(f"Model not found at {MODEL_PATH}")
 
 # -----------------------------
-# Load model (CPU safe for Render)
+# Load model (CPU-safe)
 # -----------------------------
 model = tf.keras.models.load_model(MODEL_PATH)
 
