@@ -5,7 +5,11 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 import tensorflow as tf
+import os
 
+# -----------------------------
+# App init
+# -----------------------------
 app = FastAPI()
 
 # -----------------------------
@@ -20,30 +24,39 @@ app.add_middleware(
 )
 
 # -----------------------------
-# Load model
+# Resolve MODEL PATH CORRECTLY
+# Repo structure:
+# PotatoDie/
+# ├── api/main.py   <-- this file
+# ├── models/potato_model.h5
 # -----------------------------
-MODEL_PATH = "models/potatoes_model.h5"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "..", "models", "potato_model.h5")
+
+# -----------------------------
+# Load model (CPU safe for Render)
+# -----------------------------
 model = tf.keras.models.load_model(MODEL_PATH)
 
 CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
 
 # -----------------------------
-# GLOBAL HISTORY STORAGE
+# In-memory history
 # -----------------------------
 scan_history = []
 
 # -----------------------------
-# Utility: read image
+# Image preprocessing
 # -----------------------------
 def read_image(file: UploadFile):
-    image = Image.open(BytesIO(file.file.read()))
+    image = Image.open(BytesIO(file.file.read())).convert("RGB")
     image = image.resize((224, 224))
     image = np.array(image) / 255.0
     image = np.expand_dims(image, axis=0)
     return image
 
 # -----------------------------
-# PREDICT ENDPOINT
+# Predict endpoint
 # -----------------------------
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
@@ -69,7 +82,7 @@ async def predict(file: UploadFile = File(...)):
     }
 
 # -----------------------------
-# HISTORY + ANALYTICS ENDPOINT
+# History + analytics endpoint
 # -----------------------------
 @app.get("/history")
 def get_history():
