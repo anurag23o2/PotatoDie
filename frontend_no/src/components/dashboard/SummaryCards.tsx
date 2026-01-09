@@ -20,33 +20,28 @@ export function SummaryCards() {
     );
   }
 
-  const total = summary?.total_predictions ?? summary?.total_scans ?? 0;
-  const avg = summary?.average_confidence ?? 0;
-  const max = summary?.max_confidence ?? summary?.highest_confidence ?? 0;
-  const min = summary?.min_confidence ?? summary?.lowest_confidence ?? 0;
-
   const cards = [
     {
       title: "Total Scans",
-      value: total,
+      value: summary?.total_scans ?? 0,
       icon: Activity,
       format: (v: number) => v.toLocaleString(),
     },
     {
       title: "Avg Confidence",
-      value: avg,
+      value: summary?.average_confidence ?? 0,
       icon: Target,
       format: (v: number) => `${(v * 100).toFixed(1)}%`,
     },
     {
       title: "Highest Score",
-      value: max,
+      value: summary?.highest_confidence ?? 0,
       icon: TrendingUp,
       format: (v: number) => `${(v * 100).toFixed(1)}%`,
     },
     {
       title: "Lowest Score",
-      value: min,
+      value: summary?.lowest_confidence ?? 0,
       icon: TrendingDown,
       format: (v: number) => `${(v * 100).toFixed(1)}%`,
     },

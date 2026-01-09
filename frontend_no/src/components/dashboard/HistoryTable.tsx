@@ -91,10 +91,9 @@ export function HistoryTable() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-              {sortedHistory.slice(0, 20).map((item) => {
-                  const config = classConfig[item.class] || classConfig["Healthy"];
+                {sortedHistory.slice(0, 20).map((item) => {
+                  const config = classConfig[item.predicted_class] || classConfig["Healthy"];
                   const Icon = config.icon;
-                  const filename = item.image_path.split('/').pop() || 'Unknown';
 
                   return (
                     <TableRow key={item.id}>
@@ -102,12 +101,12 @@ export function HistoryTable() {
                         {format(new Date(item.timestamp), "MMM d, yyyy HH:mm")}
                       </TableCell>
                       <TableCell className="font-medium max-w-[200px] truncate">
-                        {filename}
+                        {item.filename}
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <Icon className={cn("h-4 w-4", config.color)} />
-                          <Badge variant={config.variant}>{item.class}</Badge>
+                          <Badge variant={config.variant}>{item.predicted_class}</Badge>
                         </div>
                       </TableCell>
                       <TableCell className="text-right font-medium">

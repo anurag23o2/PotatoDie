@@ -4,7 +4,7 @@ import { ArrowRight, Leaf, Zap, Shield, BarChart3, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { useSummary, useClassDistribution } from "@/hooks/useAnalytics";
+import { useSummary } from "@/hooks/useAnalytics";
 
 const features = [
   {
@@ -45,12 +45,6 @@ const staggerContainer = {
 
 export default function HomePage() {
   const { data: summary, isLoading } = useSummary();
-  const { data: distribution } = useClassDistribution();
-
-  // Find the most detected class from distribution
-  const mostDetected = distribution?.length
-    ? distribution.reduce((max, item) => (item.count > max.count ? item : max), distribution[0])
-    : null;
 
   return (
     <DashboardLayout>
@@ -119,45 +113,38 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            {(() => {
-              const total = summary.total_predictions ?? summary.total_scans ?? 0;
-              const highest = summary.max_confidence ?? summary.highest_confidence ?? 0;
-
-              return (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <Card className="bg-primary text-primary-foreground border-0">
-                    <CardContent className="p-6 text-center">
-                      <p className="text-3xl md:text-4xl font-bold">{total}</p>
-                      <p className="text-sm opacity-90 mt-1">Total Scans</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-card border-border">
-                    <CardContent className="p-6 text-center">
-                      <p className="text-3xl md:text-4xl font-bold text-primary">
-                        {(summary.average_confidence * 100).toFixed(0)}%
-                      </p>
-                      <p className="text-sm text-muted-foreground mt-1">Avg Confidence</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-card border-border">
-                    <CardContent className="p-6 text-center">
-                      <p className="text-3xl md:text-4xl font-bold text-primary">
-                        {(highest * 100).toFixed(0)}%
-                      </p>
-                      <p className="text-sm text-muted-foreground mt-1">Highest Score</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-card border-border">
-                    <CardContent className="p-6 text-center">
-                      <p className="text-3xl md:text-4xl font-bold text-primary capitalize">
-                        {mostDetected?.class || "N/A"}
-                      </p>
-                      <p className="text-sm text-muted-foreground mt-1">Most Detected</p>
-                    </CardContent>
-                  </Card>
-                </div>
-              );
-            })()}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Card className="bg-primary text-primary-foreground border-0">
+                <CardContent className="p-6 text-center">
+                  <p className="text-3xl md:text-4xl font-bold">{summary.total_scans}</p>
+                  <p className="text-sm opacity-90 mt-1">Total Scans</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-card border-border">
+                <CardContent className="p-6 text-center">
+                  <p className="text-3xl md:text-4xl font-bold text-primary">
+                    {(summary.average_confidence * 100).toFixed(0)}%
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">Avg Confidence</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-card border-border">
+                <CardContent className="p-6 text-center">
+                  <p className="text-3xl md:text-4xl font-bold text-primary">
+                    {(summary.highest_confidence * 100).toFixed(0)}%
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">Highest Score</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-card border-border">
+                <CardContent className="p-6 text-center">
+                  <p className="text-3xl md:text-4xl font-bold text-primary capitalize">
+                    {summary.most_common_class?.replace("_", " ") || "N/A"}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">Most Detected</p>
+                </CardContent>
+              </Card>
+            </div>
           </motion.section>
         )}
 

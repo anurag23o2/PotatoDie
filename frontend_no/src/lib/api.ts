@@ -2,25 +2,22 @@ const API_BASE = "https://potatodie-hbw1.onrender.com";
 
 export interface HistoryItem {
   id: number;
-  image_path: string;
-  class: string;
+  filename: string;
+  predicted_class: string;
   confidence: number;
   timestamp: string;
 }
 
 export interface SummaryData {
-  total_predictions?: number;
-  total_scans?: number;
+  total_scans: number;
   average_confidence: number;
-  max_confidence?: number;
-  highest_confidence?: number;
-  min_confidence?: number;
-  lowest_confidence?: number;
-  most_common_class?: string;
+  highest_confidence: number;
+  lowest_confidence: number;
+  most_common_class: string;
 }
 
 export interface ClassDistribution {
-  class: string;
+  class_name: string;
   count: number;
   percentage: number;
 }
@@ -36,9 +33,9 @@ export interface ConfidenceLevel {
 }
 
 export interface PredictionResult {
-  class: string;
+  predicted_class: string;
   confidence: number;
-  image_path: string;
+  message: string;
 }
 
 export async function fetchHistory(): Promise<HistoryItem[]> {

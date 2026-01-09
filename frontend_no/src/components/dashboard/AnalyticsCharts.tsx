@@ -52,7 +52,7 @@ export function DiseaseDistributionChart() {
   }
 
   const chartData = data.map((item) => ({
-    name: item.class,
+    name: item.class_name,
     value: item.count,
     percentage: item.percentage,
   }));

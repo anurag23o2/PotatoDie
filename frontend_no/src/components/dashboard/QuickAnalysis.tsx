@@ -52,7 +52,7 @@ export function QuickAnalysis() {
     setError(null);
   };
 
-  const info = result ? diseaseInfo[result.class] || diseaseInfo["Healthy"] : null;
+  const info = result ? diseaseInfo[result.predicted_class] || diseaseInfo["Healthy"] : null;
   const Icon = info?.icon || CheckCircle;
 
   return (
@@ -131,8 +131,8 @@ export function QuickAnalysis() {
                   <div className="flex items-center gap-3 mb-3">
                     <Icon className={cn("h-8 w-8", info.color)} />
                     <div>
-                      <p className="font-bold text-lg">{result.class}</p>
-                      <p className="text-sm text-muted-foreground">Classification Result</p>
+                      <p className="font-bold text-lg">{result.predicted_class}</p>
+                      <p className="text-sm text-muted-foreground">{result.message}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
