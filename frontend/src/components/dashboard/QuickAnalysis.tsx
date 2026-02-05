@@ -92,42 +92,25 @@ export function QuickAnalysis() {
         ) : (
           <div className="space-y-4">
             <div className="relative rounded-xl overflow-hidden bg-muted aspect-video">
-              <img
-                src={preview}
-                alt="Uploaded leaf"
-                className="w-full h-full object-contain"
-              />
+              <img src={preview} alt="Uploaded leaf" className="w-full h-full object-contain" />
             </div>
 
             <AnimatePresence mode="wait">
               {isAnalyzing && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="flex flex-col items-center gap-3 py-4"
-                >
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center gap-3 py-4">
                   <Loader2 className="h-8 w-8 text-primary animate-spin" />
                   <p className="text-sm text-muted-foreground">Analyzing image...</p>
                 </motion.div>
               )}
 
               {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-4 bg-destructive/10 rounded-lg text-center"
-                >
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-4 bg-destructive/10 rounded-lg text-center">
                   <p className="text-destructive font-medium">{error}</p>
                 </motion.div>
               )}
 
               {result && info && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={cn("p-4 rounded-xl", info.bgColor)}
-                >
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={cn("p-4 rounded-xl", info.bgColor)}>
                   <div className="flex items-center gap-3 mb-3">
                     <Icon className={cn("h-8 w-8", info.color)} />
                     <div>
@@ -146,9 +129,7 @@ export function QuickAnalysis() {
               )}
             </AnimatePresence>
 
-            <Button onClick={reset} variant="outline" className="w-full">
-              Analyze Another Image
-            </Button>
+            <Button onClick={reset} variant="outline" className="w-full">Analyze Another Image</Button>
           </div>
         )}
       </CardContent>

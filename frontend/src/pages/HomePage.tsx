@@ -47,7 +47,6 @@ export default function HomePage() {
   const { data: summary, isLoading } = useSummary();
   const { data: distribution } = useClassDistribution();
 
-  // Find the most detected class from distribution
   const mostDetected = distribution?.length
     ? distribution.reduce((max, item) => (item.count > max.count ? item : max), distribution[0])
     : null;

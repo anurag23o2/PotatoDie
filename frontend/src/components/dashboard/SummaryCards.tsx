@@ -26,30 +26,10 @@ export function SummaryCards() {
   const min = summary?.min_confidence ?? summary?.lowest_confidence ?? 0;
 
   const cards = [
-    {
-      title: "Total Scans",
-      value: total,
-      icon: Activity,
-      format: (v: number) => v.toLocaleString(),
-    },
-    {
-      title: "Avg Confidence",
-      value: avg,
-      icon: Target,
-      format: (v: number) => `${(v * 100).toFixed(1)}%`,
-    },
-    {
-      title: "Highest Score",
-      value: max,
-      icon: TrendingUp,
-      format: (v: number) => `${(v * 100).toFixed(1)}%`,
-    },
-    {
-      title: "Lowest Score",
-      value: min,
-      icon: TrendingDown,
-      format: (v: number) => `${(v * 100).toFixed(1)}%`,
-    },
+    { title: "Total Scans", value: total, icon: Activity, format: (v: number) => v.toLocaleString() },
+    { title: "Avg Confidence", value: avg, icon: Target, format: (v: number) => `${(v * 100).toFixed(1)}%` },
+    { title: "Highest Score", value: max, icon: TrendingUp, format: (v: number) => `${(v * 100).toFixed(1)}%` },
+    { title: "Lowest Score", value: min, icon: TrendingDown, format: (v: number) => `${(v * 100).toFixed(1)}%` },
   ];
 
   return (
@@ -66,9 +46,7 @@ export function SummaryCards() {
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">{card.title}</p>
-                  <p className="text-2xl font-bold text-foreground mt-1">
-                    {card.format(card.value)}
-                  </p>
+                  <p className="text-2xl font-bold text-foreground mt-1">{card.format(card.value)}</p>
                 </div>
                 <div className="p-2 rounded-lg bg-primary/10">
                   <card.icon className="h-5 w-5 text-primary" />

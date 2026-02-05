@@ -58,6 +58,11 @@
     --chart-healthy: 142 72% 45%;
     --chart-early-blight: 38 92% 50%;
     --chart-late-blight: 0 72% 51%;
+
+    /* Chatbot */
+    --chatbot-bg: 142 72% 29%;
+    --chatbot-user: 142 72% 95%;
+    --chatbot-assistant: 0 0% 100%;
   }
 
   .dark {
@@ -108,6 +113,10 @@
     --chart-healthy: 142 72% 45%;
     --chart-early-blight: 38 92% 50%;
     --chart-late-blight: 0 72% 51%;
+
+    --chatbot-bg: 142 72% 35%;
+    --chatbot-user: 140 25% 20%;
+    --chatbot-assistant: 140 25% 15%;
   }
 }
 

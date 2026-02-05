@@ -64,6 +64,11 @@ export default {
           "early-blight": "hsl(var(--chart-early-blight))",
           "late-blight": "hsl(var(--chart-late-blight))",
         },
+        chatbot: {
+          DEFAULT: "hsl(var(--chatbot-bg))",
+          user: "hsl(var(--chatbot-user))",
+          assistant: "hsl(var(--chatbot-assistant))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -97,6 +102,11 @@ export default {
           from: { opacity: "0", transform: "translateX(-10px)" },
           to: { opacity: "1", transform: "translateX(0)" },
         },
+        "bounce-in": {
+          "0%": { transform: "scale(0.9)", opacity: "0" },
+          "50%": { transform: "scale(1.02)" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
         pulse: {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.5" },
@@ -107,6 +117,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out",
         "slide-in": "slide-in 0.3s ease-out",
+        "bounce-in": "bounce-in 0.3s ease-out",
         pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },

@@ -1,4 +1,5 @@
 import { AppSidebar } from "./AppSidebar";
+import { PotatoChatbot } from "@/components/chatbot/PotatoChatbot";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {children}
         </div>
       </main>
+      <PotatoChatbot />
     </div>
   );
 }
