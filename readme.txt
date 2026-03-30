@@ -1,8 +1,4 @@
 
-# Project Title
-
-A brief description of what this project does and who it's for
-
 # 🥔 Potato Disease Classifier (PotatoDie)
 
 An end-to-end deep learning project that detects potato plant diseases using image classification.
@@ -83,7 +79,7 @@ The model demonstrates high performance in detecting potato diseases with minima
 
 The model is deployed as a web application using FastAPI backend.
 
-🔗 Live App: https://potatodieclassification.netlify.app/
+🔗 Live App: https://potatodieleafs.vercel.app/
 
 ---
 
