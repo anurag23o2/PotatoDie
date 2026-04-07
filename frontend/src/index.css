@@ -1,20 +1,153 @@
-body {
-	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-		sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* PotatoDie - Professional Agricultural Dashboard Design System */
+
+@layer base {
+  :root {
+    --background: 120 20% 98%;
+    --foreground: 140 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 140 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 140 25% 15%;
+
+    --primary: 142 72% 29%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 85 45% 92%;
+    --secondary-foreground: 140 25% 20%;
+
+    --muted: 120 15% 94%;
+    --muted-foreground: 140 15% 45%;
+
+    --accent: 45 93% 47%;
+    --accent-foreground: 140 25% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 140 20% 88%;
+    --input: 140 20% 88%;
+    --ring: 142 72% 29%;
+
+    --radius: 0.75rem;
+
+    /* Dashboard specific */
+    --success: 142 72% 40%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+
+    /* Sidebar */
+    --sidebar-background: 140 25% 18%;
+    --sidebar-foreground: 120 20% 95%;
+    --sidebar-primary: 142 72% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 140 25% 25%;
+    --sidebar-accent-foreground: 120 20% 95%;
+    --sidebar-border: 140 25% 25%;
+    --sidebar-ring: 142 72% 45%;
+
+    /* Chart colors */
+    --chart-healthy: 142 72% 45%;
+    --chart-early-blight: 38 92% 50%;
+    --chart-late-blight: 0 72% 51%;
+
+    /* Chatbot */
+    --chatbot-bg: 142 72% 29%;
+    --chatbot-user: 142 72% 95%;
+    --chatbot-assistant: 0 0% 100%;
+  }
+
+  .dark {
+    --background: 140 25% 8%;
+    --foreground: 120 20% 95%;
+
+    --card: 140 25% 12%;
+    --card-foreground: 120 20% 95%;
+
+    --popover: 140 25% 12%;
+    --popover-foreground: 120 20% 95%;
+
+    --primary: 142 72% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 140 25% 20%;
+    --secondary-foreground: 120 20% 95%;
+
+    --muted: 140 25% 18%;
+    --muted-foreground: 120 15% 60%;
+
+    --accent: 45 93% 47%;
+    --accent-foreground: 140 25% 10%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 140 25% 22%;
+    --input: 140 25% 22%;
+    --ring: 142 72% 45%;
+
+    --success: 142 72% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+
+    --sidebar-background: 140 25% 6%;
+    --sidebar-foreground: 120 20% 90%;
+    --sidebar-primary: 142 72% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 140 25% 15%;
+    --sidebar-accent-foreground: 120 20% 90%;
+    --sidebar-border: 140 25% 15%;
+    --sidebar-ring: 142 72% 45%;
+
+    --chart-healthy: 142 72% 45%;
+    --chart-early-blight: 38 92% 50%;
+    --chart-late-blight: 0 72% 51%;
+
+    --chatbot-bg: 142 72% 35%;
+    --chatbot-user: 140 25% 20%;
+    --chatbot-assistant: 140 25% 15%;
+  }
 }
 
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-		monospace;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
 }
 
-.MuiDropzoneArea-root {
-	background-color: transparent !important;
-}
-.MuiDropzoneArea-text, .MuiDropzoneArea-icon {
-  color: white !important;
+/* Custom scrollbar */
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
 }
